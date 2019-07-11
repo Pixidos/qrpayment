@@ -1,0 +1,30 @@
+{
+  "name": "pixidos/grpayment",
+  "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+  "type": "library",
+  "description": "Generate qr code for payment",
+  "keywords": ["qr", "qr code", "qrcode","webpay", "pay", "checkout", "payment"],
+  "homepage": "https://github.com/pixidos",
+  "require": {
+    "php": "^7.2",
+    "endroid/qr-code": "^3.6"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^8.2",
+    "phpstan/phpstan": "^0.11.12"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pixidos\\QRPayment\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pixidos\\QRPayment\\Tests\\": "tests/"
+    }
+  }
+}
