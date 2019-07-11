@@ -6,8 +6,8 @@
   "keywords": ["qr", "qr code", "qrcode","webpay", "pay", "checkout", "payment"],
   "homepage": "https://github.com/pixidos",
   "require": {
-    "php": "^7.2",
-    "endroid/qr-code": "^3.6"
+    "php": "^7.1",
+    "endroid/qr-code": "^3.5.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
