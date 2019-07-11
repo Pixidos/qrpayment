@@ -23,9 +23,6 @@ class Base64Generator
     public function generate(PaymentOptions $options): string
     {
         $path = $this->generatorOptions->getPath(getmyuid().'.svg');
-        if (null === $path) {
-            throw new LogicException('You must set path for image save first');
-        }
         $qrCode = new QrCode((string)$options);
         $qrCode->setSize($this->generatorOptions->getSize());
         // Set advanced options
@@ -38,6 +35,6 @@ class Base64Generator
             throw new \RuntimeException('some problem');
         }
         
-        return 'data:' . mime_content_type($path) . ';base64,' . base64_encode(file_get_contents($path));
+        return 'data:' . mime_content_type($path) . ';base64,' . base64_encode((string)file_get_contents($path));
     }
 }

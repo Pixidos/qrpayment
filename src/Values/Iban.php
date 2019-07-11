@@ -147,7 +147,7 @@ class Iban
     {
         $accountNumber = $this->countryCode . $this->check . $this->bban;
         if ($size > 0) {
-            $accountNumber = implode($separator, str_split($this->countryCode . $this->check . $this->bban, $size));
+            $accountNumber = implode($separator, (array)str_split($this->countryCode . $this->check . $this->bban, $size));
         }
         
         if ($prefix) {
@@ -203,7 +203,7 @@ class Iban
         # Remove IIBAN or IBAN from start of string, if present
         $iban = preg_replace('/^I?IBAN/', '', $iban);
         # Remove all non basic roman letter / digit characters
-        $iban = preg_replace('/[^a-zA-Z0-9]/', '', $iban);
+        $iban = preg_replace('/[^a-zA-Z0-9]/', '', (string)$iban);
         if (null === $iban) {
             throw new InvalidIbanException("Iban: '{$original}' is invalid");
         }
@@ -227,7 +227,7 @@ class Iban
         }
         
         $numeric = $this->toNumeric();
-        $result = 98 - bcmod($numeric, (string)97);
+        $result = 98 - (int)bcmod($numeric, (string)97);
         if ($result !== (int)$this->check) {
             throw new InvalidIbanException("Iban: '{$this->iban}' is invalid");
         }

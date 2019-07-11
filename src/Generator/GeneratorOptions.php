@@ -5,6 +5,8 @@ namespace Pixidos\QRPayment\Generator;
 
 
 use Endroid\QrCode\ErrorCorrectionLevel;
+use RuntimeException;
+use UnexpectedValueException;
 
 class GeneratorOptions
 {
@@ -23,11 +25,19 @@ class GeneratorOptions
     private $fontSize;
     private $labelAligment;
     
+    /**
+     * GeneratorOptions constructor.
+     *
+     * @param string|null $path
+     *
+     * @throws RuntimeException
+     * @throws UnexpectedValueException
+     */
     public function __construct(?string $path = null)
     {
         $this->path = $path ?: __DIR__ . '/tmp';
-        if (@!mkdir($path, 0777) && !is_dir($path)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
+        if (@!mkdir($this->path, 0777) && !is_dir($this->path)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $this->path));
         }
         $this->errorCorrectionLevel = new ErrorCorrectionLevel(ErrorCorrectionLevel::HIGH);
     }

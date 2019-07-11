@@ -2,6 +2,7 @@
 
 namespace Pixidos\QRPayment;
 
+use RuntimeException;
 use Transliterator;
 
 /**
@@ -9,17 +10,21 @@ use Transliterator;
  * @param bool   $allowStar
  *
  * @return string
+ * @throws RuntimeException
  */
 function removeIlegalCharacters(string $value, $allowStar = false): string
 {
     $transliterator = Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;', Transliterator::FORWARD);
+    if (null === $transliterator) {
+        throw new RuntimeException('Create Transliterator failed');
+    }
     
-    $value = $transliterator->transliterate($value);
+    $value = (string)$transliterator->transliterate($value);
     $pattern = '/[^a-zA-Z\$%\+\-,\.\/: ]/i';
     if ($allowStar) {
         $pattern = '/[^a-zA-Z\$%\+\-,\.\/:\* ]/i';
     }
-    $value = preg_replace($pattern, '', $value);
+    $value = (string)preg_replace($pattern, '', $value);
     
     return $value;
 }
