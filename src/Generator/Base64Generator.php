@@ -20,9 +20,10 @@ class Base64Generator
         $this->generatorOptions = $options;
     }
     
-    public function generate(PaymentOptions $options): string
+    public function generate(PaymentOptions $options, ?string $tempFileName = null): string
     {
-        $path = $this->generatorOptions->getPath(getmyuid().'.svg');
+        $name = $tempFileName ?: getmyuid() . '.svg';
+        $path = $this->generatorOptions->getPath($name);
         $qrCode = new QrCode((string)$options);
         $qrCode->setSize($this->generatorOptions->getSize());
         // Set advanced options

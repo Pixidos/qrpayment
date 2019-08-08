@@ -5,15 +5,20 @@ namespace Pixidos\QRPayment\Values;
 
 
 use Pixidos\QRPayment\Exceptions\InvalidValueException;
+use RuntimeException;
 use function Pixidos\QRPayment\removeIlegalCharacters;
+use function strlen;
 
 /**
  * Class Message
  * @package Pixidos\QRPayment\Values
  * @author Ondra Votava <ondra@votava.it>
  */
-class Message
+class Message implements ValueInterface
 {
+    /**
+     * @var string
+     */
     private $message;
     
     /**
@@ -22,14 +27,15 @@ class Message
      * @param string $message max 60 chars
      *
      * @throws InvalidValueException
+     * @throws RuntimeException
      */
     public function __construct(string $message)
     {
         $message = removeIlegalCharacters($message);
-        if (\strlen($message) > 60) {
+        if (strlen($message) > 60) {
             throw new InvalidValueException('Message is too long. Max is 60 chars');
         }
-    
+        
         $this->message = $message;
     }
     
@@ -41,8 +47,19 @@ class Message
         return $this->message;
     }
     
-    public function __toString()
+    /**
+     * @return string
+     */
+    public function getPrefix(): string
     {
-        return 'MSG:' . $this->message . '*';
+        return 'MSG';
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getPrefix() . ':' . $this->message . '*';
     }
 }
